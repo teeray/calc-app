@@ -11,7 +11,7 @@ namespace calc_app.Util
     /// </summary>
     static class Sanitize
     {
-        static char[] delimeter = null;
+        static string[] delimeter = null;
         static int? exact = 0;
         static bool denyNeg = false;
         static int? maxNum = null;
@@ -20,7 +20,7 @@ namespace calc_app.Util
         /// </summary>
         /// <param name="_delimeter"></param>
         /// <param name="_exact"></param>
-        public static void Setup(char[] _delimeter, int? _exact, int? _maxNum, bool _denyNeg = false)
+        public static void Setup(string[] _delimeter, int? _exact, int? _maxNum, bool _denyNeg = false)
         {
             delimeter = _delimeter;
             exact = _exact;
@@ -63,20 +63,21 @@ namespace calc_app.Util
         /// <returns></returns>
         public static string SetupDeliminator(string text)
         {
-            var delim = text.IndexOf("//");
+            var delim = text.IndexOf("//[");
             if(delim == 0)
             {
                 //get index of first \n char.
-                var newIndex = text.IndexOf("\n");
+                var newIndex = text.IndexOf("]\n");
                 if(newIndex > 0)
                 {
                     //pull out the deliminator string
-                    var addDelim = text.Substring(delim, newIndex + 1);
+                    var addDelim = text.Substring(delim, newIndex + 2);
+                    var diff = newIndex - (delim + 3);
                     //get value of deliminator
-                    var value = text.Substring(delim + 2, 1);
-                    var chars = delimeter.ToList();
-                    chars.Add(char.Parse(value));
-                    delimeter = chars.ToArray();
+                    var value = text.Substring(delim + 3, diff);
+                    var strings = delimeter.ToList();
+                    strings.Add(value);
+                    delimeter = strings.ToArray();
                     return text.Replace(addDelim, "");
                 }
             }

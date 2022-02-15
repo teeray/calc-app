@@ -18,7 +18,7 @@ namespace calc_app
             {
                 var data = Regex.Unescape(Console.ReadLine());
               
-                Sanitize.Setup(new char[]{ ',', '\n' }, null, 1000, true);
+                Sanitize.Setup(new string[]{ ",","\n" }, null, 1000, true);
                 var currString = Sanitize.SetupDeliminator(data);
                 var sanitize = Sanitize.Split(currString);
                 var sum = 0;
