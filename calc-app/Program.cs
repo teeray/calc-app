@@ -1,6 +1,7 @@
 ﻿using calc_app.Util;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace calc_app
 {
@@ -15,8 +16,8 @@ namespace calc_app
             //limited to one string, pull out first index
             while (true)
             {
-                var data = Console.ReadLine();
-                Sanitize.Setup(new char[] { ',' }, null);
+                var data = Regex.Unescape(Console.ReadLine());
+                Sanitize.Setup(new char[] { ',','\n' }, null);
                 var sanitize = Sanitize.Split(data);
                 var sum = 0;
                 foreach (var val in sanitize)
