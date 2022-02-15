@@ -27,6 +27,7 @@ namespace calc_app.Util
             denyNeg = _denyNeg;
             maxNum = _maxNum;
         }
+
         /// <summary>
         /// Configurable splitter
         /// </summary>
@@ -54,6 +55,32 @@ namespace calc_app.Util
                 }
             }
             return rslt;
+        }
+        /// <summary>
+        /// Check if there is a deliminator. If so add to the array of delimeters and return the string to parse
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string SetupDeliminator(string text)
+        {
+            var delim = text.IndexOf("//");
+            if(delim == 0)
+            {
+                //get index of first \n char.
+                var newIndex = text.IndexOf("\n");
+                if(newIndex > 0)
+                {
+                    //pull out the deliminator string
+                    var addDelim = text.Substring(delim, newIndex + 1);
+                    //get value of deliminator
+                    var value = text.Substring(delim + 2, 1);
+                    var chars = delimeter.ToList();
+                    chars.Add(char.Parse(value));
+                    delimeter = chars.ToArray();
+                    return text.Replace(addDelim, "");
+                }
+            }
+            return text;
         }
         /// <summary>
         /// Convert based on current rules
