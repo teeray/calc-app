@@ -13,15 +13,17 @@ namespace calc_app.Util
     {
         static char[] delimeter = null;
         static int? exact = 0;
+        static bool denyNeg = false;
         /// <summary>
         /// Setup for sanitizer class
         /// </summary>
         /// <param name="_delimeter"></param>
         /// <param name="_exact"></param>
-        public static void Setup(char[] _delimeter, int? _exact)
+        public static void Setup(char[] _delimeter, int? _exact, bool _denyNeg = false)
         {
             delimeter = _delimeter;
             exact = _exact;
+            denyNeg = _denyNeg;
         }
         /// <summary>
         /// Configurable splitter
@@ -30,13 +32,23 @@ namespace calc_app.Util
         /// <returns></returns>
         public static string[] Split(string text)
         {
-
+            //split on custom delimeter
             var rslt = text.Split(delimeter, StringSplitOptions.RemoveEmptyEntries);
+            //check for exact value
             if (exact.HasValue)
             {
                 if (rslt.Length != exact)
                 {
                     throw new Exception("Invalid number of values in your arguments");
+                }
+            }
+            //check for negative
+            if (denyNeg)
+            {
+                var negs = rslt.Where(w => w.Length > 0 && w[0] == '-');
+                if (negs.Any())
+                {
+                    throw new Exception($"You have added negative numbers. The following are not permitted:{string.Join(",",negs)}");
                 }
             }
             return rslt;
