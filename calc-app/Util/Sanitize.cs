@@ -61,7 +61,7 @@ namespace calc_app.Util
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static string Setup(string text)
+        public static string SetupProperties(string text)
         {
             //get custom props values\*/....neg,upper###
             var propindex = text.IndexOf("/*/");

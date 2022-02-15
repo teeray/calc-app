@@ -21,7 +21,7 @@ namespace calc_app
                 var data = Regex.Unescape(Console.ReadLine());
               
                 Sanitize.Setup(new string[]{ "," }, null, 1000, true);
-                var currString = Sanitize.Setup(data);
+                var currString = Sanitize.SetupProperties(data);
                 var sanitize = Sanitize.Split(currString);
                 var sum = 0;
                 var printout = string.Empty;
