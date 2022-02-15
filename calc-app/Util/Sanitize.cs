@@ -15,6 +15,8 @@ namespace calc_app.Util
         static int? exact = 0;
         static bool denyNeg = false;
         static int? maxNum = null;
+        //0 = add, 1 = sub, 2 = mult, 3 = div
+        public static int mathType = 0;
         /// <summary>
         /// Setup for sanitizer class
         /// </summary>
@@ -63,7 +65,7 @@ namespace calc_app.Util
         /// <returns></returns>
         public static string SetupProperties(string text)
         {
-            //get custom props values\*/....neg,upper###
+            //get custom props values\*/....neg,upper###[sub/mult/div]
             var propindex = text.IndexOf("/*/");
             //make a rule, props must be at the end of the string. makes this easier...otherwise split this off from the rest and process seperately
             if(propindex > 0)
@@ -83,6 +85,22 @@ namespace calc_app.Util
                         var max = rslt.Substring(index + 5);
                         maxNum = Converter(max);
                     }
+                    if(rslt == "add")
+                    {
+                        mathType = 0;
+                    }
+                    if(rslt == "sub")
+                    {
+                        mathType = 1;
+                    }
+                    if(rslt == "mult")
+                    {
+                        mathType = 2;
+                    }
+                    if(rslt == "div")
+                    {
+                        mathType = 3;
+                    }
                 }
                 //clean up the string for processing values
                 text = text.Substring(0, propindex);
@@ -96,8 +114,8 @@ namespace calc_app.Util
                 if(newIndex > 0)
                 {
                     //pull out the deliminator string
-                    var addDelim = text.Substring(delim, newIndex);
-                    var delims = addDelim.Substring(2, addDelim.Length -2).Split("][");
+                    var addDelim = text.Substring(delim, newIndex + 1);
+                    var delims = addDelim.Substring(2, addDelim.Length -4).Split("][");
                     var strings = delimeter.ToList();
                     foreach(var val in delims)
                     {
