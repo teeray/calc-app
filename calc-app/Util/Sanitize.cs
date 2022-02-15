@@ -63,20 +63,21 @@ namespace calc_app.Util
         /// <returns></returns>
         public static string SetupDeliminator(string text)
         {
-            var delim = text.IndexOf("//[");
+            var delim = text.IndexOf("//");
             if(delim == 0)
             {
                 //get index of first \n char.
-                var newIndex = text.IndexOf("]\n");
+                var newIndex = text.IndexOf("\n");
                 if(newIndex > 0)
                 {
                     //pull out the deliminator string
-                    var addDelim = text.Substring(delim, newIndex + 2);
-                    var diff = newIndex - (delim + 3);
-                    //get value of deliminator
-                    var value = text.Substring(delim + 3, diff);
+                    var addDelim = text.Substring(delim + 2, newIndex - 2);
+                    var delims = addDelim.Split("][");
                     var strings = delimeter.ToList();
-                    strings.Add(value);
+                    foreach(var val in delims)
+                    {
+                        strings.Add(val.Replace("[", "").Replace("]", ""));
+                    }
                     delimeter = strings.ToArray();
                     return text.Replace(addDelim, "");
                 }
