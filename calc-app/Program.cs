@@ -22,12 +22,20 @@ namespace calc_app
                 var currString = Sanitize.SetupDeliminator(data);
                 var sanitize = Sanitize.Split(currString);
                 var sum = 0;
+                var printout = string.Empty;
                 foreach (var val in sanitize)
                 {
+
                     var clean = Sanitize.SanitizeString(val);
+                    if(printout.Length > 0)
+                    {
+                        printout = printout + "+";
+                    }
+                    printout = printout + clean.ToString();
                     sum = Calc.add(sum, clean);
                 }
-                Console.WriteLine(sum);
+                Console.Write($"Calculation:{printout}{Environment.NewLine}");
+                Console.WriteLine($"Result:{sum}");
                 if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Escape)
                 {
                     break;
