@@ -16,7 +16,7 @@ namespace calc_app
             while (true)
             {
                 var data = Console.ReadLine();
-                Sanitize.Setup(new char[] { ',' }, 2);
+                Sanitize.Setup(new char[] { ',' }, null);
                 var sanitize = Sanitize.Split(data);
                 var sum = 0;
                 foreach (var val in sanitize)
