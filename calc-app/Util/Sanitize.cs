@@ -61,8 +61,33 @@ namespace calc_app.Util
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static string SetupDeliminator(string text)
+        public static string Setup(string text)
         {
+            //get custom props values\*/....neg,upper###
+            var propindex = text.IndexOf("/*/");
+            //make a rule, props must be at the end of the string. makes this easier...otherwise split this off from the rest and process seperately
+            if(propindex > 0)
+            {
+                var prop = text.Substring(propindex);
+                var propstring = prop.Replace("/*/", "");
+                var props = propstring.Split(",");
+                foreach(var rslt in props)
+                {
+                    if(rslt == "neg")
+                    {
+                        denyNeg = true;
+                    }
+                    if(rslt.IndexOf("upper") >= 0)
+                    {
+                        var index = rslt.IndexOf("upper");
+                        var max = rslt.Substring(index + 5);
+                        maxNum = Converter(max);
+                    }
+                }
+                //clean up the string for processing values
+                text = text.Substring(0, propindex);
+            }
+            //do the deliminator
             var delim = text.IndexOf("//");
             if(delim == 0)
             {
@@ -71,8 +96,8 @@ namespace calc_app.Util
                 if(newIndex > 0)
                 {
                     //pull out the deliminator string
-                    var addDelim = text.Substring(delim + 2, newIndex - 2);
-                    var delims = addDelim.Split("][");
+                    var addDelim = text.Substring(delim, newIndex);
+                    var delims = addDelim.Substring(2, addDelim.Length -2).Split("][");
                     var strings = delimeter.ToList();
                     foreach(var val in delims)
                     {

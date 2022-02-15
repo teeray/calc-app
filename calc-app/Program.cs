@@ -12,14 +12,16 @@ namespace calc_app
         {
             Console.WriteLine("Super Calculator App");
             Console.WriteLine("Enter the string you with to calculate then press enter");
-            Console.WriteLine("Press ESCAPE to exit");
+            Console.WriteLine("Add /*/... to access additional properties (upper bound, upper###, and remove negatives, neg)");
+            Console.WriteLine("Ex, \"/*/neg,upper605\", this will toggle negative values to be set to 0 and the upper bound to be set at 605");
+            Console.WriteLine("Press ESCAPE or ctrl + c to exit");
             //limited to one string, pull out first index
             while (true)
             {
                 var data = Regex.Unescape(Console.ReadLine());
               
-                Sanitize.Setup(new string[]{ ",","\n" }, null, 1000, true);
-                var currString = Sanitize.SetupDeliminator(data);
+                Sanitize.Setup(new string[]{ "," }, null, 1000, true);
+                var currString = Sanitize.Setup(data);
                 var sanitize = Sanitize.Split(currString);
                 var sum = 0;
                 var printout = string.Empty;
