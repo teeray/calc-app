@@ -14,16 +14,18 @@ namespace calc_app.Util
         static char[] delimeter = null;
         static int? exact = 0;
         static bool denyNeg = false;
+        static int? maxNum = null;
         /// <summary>
         /// Setup for sanitizer class
         /// </summary>
         /// <param name="_delimeter"></param>
         /// <param name="_exact"></param>
-        public static void Setup(char[] _delimeter, int? _exact, bool _denyNeg = false)
+        public static void Setup(char[] _delimeter, int? _exact, int? _maxNum, bool _denyNeg = false)
         {
             delimeter = _delimeter;
             exact = _exact;
             denyNeg = _denyNeg;
+            maxNum = _maxNum;
         }
         /// <summary>
         /// Configurable splitter
@@ -64,7 +66,15 @@ namespace calc_app.Util
             {
                 return 0;
             }
-            return Converter(text);
+            var rslt = Converter(text);
+            if (maxNum.HasValue)
+            {
+                if(rslt > maxNum)
+                {
+                    rslt = 0;
+                }
+            }
+            return rslt;
         }
         /// <summary>
         /// Perform conversion
