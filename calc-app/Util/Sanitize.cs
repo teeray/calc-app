@@ -71,8 +71,8 @@ namespace calc_app.Util
                 if(newIndex > 0)
                 {
                     //pull out the deliminator string
-                    var addDelim = text.Substring(delim + 2, newIndex - 2);
-                    var delims = addDelim.Split("][");
+                    var addDelim = text.Substring(delim, newIndex);
+                    var delims = addDelim.Substring(2,addDelim.Length - 2).Split("][");
                     var strings = delimeter.ToList();
                     foreach(var val in delims)
                     {
